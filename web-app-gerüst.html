@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meine Web-App</title>
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        color: #1f2937;
+        background: #f3f4f6;
+      }
+      header {
+        background: #1e293b;
+        color: #fff;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header nav a {
+        color: #cbd5e1;
+        text-decoration: none;
+        margin-left: 1.25rem;
+        font-size: 0.95rem;
+      }
+      header nav a:hover { color: #fff; }
+      .layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        min-height: calc(100vh - 110px);
+      }
+      aside {
+        background: #fff;
+        border-right: 1px solid #e5e7eb;
+        padding: 1rem;
+      }
+      aside ul { list-style: none; }
+      aside li { margin-bottom: 0.5rem; }
+      aside button {
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+        border: none;
+        background: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+      aside button:hover { background: #f1f5f9; }
+      aside button.active { background: #1e293b; color: #fff; }
+      main { padding: 2rem; }
+      .card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .card h2 { margin-bottom: 0.5rem; }
+      form { display: flex; gap: 0.5rem; }
+      input[type="text"] {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+      }
+      button.primary {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+      }
+      button.primary:hover { background: #1d4ed8; }
+      ul.items { list-style: none; margin-top: 1rem; }
+      ul.items li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      ul.items li button {
+        border: none;
+        background: none;
+        color: #ef4444;
+        cursor: pointer;
+      }
+      footer {
+        background: #fff;
+        border-top: 1px solid #e5e7eb;
+        color: #6b7280;
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>Meine Web-App</strong>
+      <nav>
+        <a href="#">Start</a>
+        <a href="#">Über</a>
+        <a href="#">Kontakt</a>
+      </nav>
+    </header>
+
+    <div class="layout">
+      <aside>
+        <ul>
+          <li><button class="active" data-view="dashboard">Dashboard</button></li>
+          <li><button data-view="einstellungen">Einstellungen</button></li>
+        </ul>
+      </aside>
+
+      <main>
+        <section class="card">
+          <h2>Willkommen 👋</h2>
+          <p>Dies ist das rudimentäre Gerüst einer Web-App: Header, Sidebar, Content-Bereich und Footer.</p>
+        </section>
+
+        <section class="card">
+          <h2>Beispiel: Todo-Liste</h2>
+          <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="Neuen Eintrag hinzufügen…" autocomplete="off" />
+            <button type="submit" class="primary">Hinzufügen</button>
+          </form>
+          <ul class="items" id="todo-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <footer>© 2026 Meine Web-App — Gerüst mit HTML, CSS und Vanilla-JS</footer>
+
+    <script>
+      // ---- Todo-Liste (Beispiel-Interaktion) ----
+      const form = document.getElementById("todo-form");
+      const input = document.getElementById("todo-input");
+      const list = document.getElementById("todo-list");
+      let items = [];
+
+      function render() {
+        list.innerHTML = "";
+        items.forEach((text, i) => {
+          const li = document.createElement("li");
+          li.innerHTML = "<span></span><button>Löschen</button>";
+          li.querySelector("span").textContent = text;
+          li.querySelector("button").addEventListener("click", () => {
+            items.splice(i, 1);
+            render();
+          });
+          list.appendChild(li);
+        });
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = input.value.trim();
+        if (value) {
+          items.push(value);
+          input.value = "";
+          render();
+        }
+      });
+
+      // ---- Sidebar-Navigation (Beispiel-Views) ----
+      const views = {
+        dashboard: "Dashboard",
+        einstellungen: "Einstellungen (Platzhalter)",
+      };
+      document.querySelectorAll("aside button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("aside button").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          alert("View gewechselt: " + views[btn.dataset.view]);
+        });
+      });
+    </script>
+  </body>
+</html>
