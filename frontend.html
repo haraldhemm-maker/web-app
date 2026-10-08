@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="./css/vendor/bootstrap/5.3.8/font/bootstrap-icons.css" media="screen" rel="stylesheet" />
+    <link href="./css/vendor/bootstrap/5.3.8/css/bootstrap.min.css" media="screen" rel="stylesheet" />
+    <title>Web-App</title>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <header> 
+      <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="dynamisches Menü und Untermenü" data-bs-theme="dark">
+        <div class=" ml-2 spinner-grow spinner-grow-sm text-primary" style="visibility:hidden;"></div>
+        <div class="container-fluid">
+          <h1><a class="navbar-brand" href="#">Web-App</a></h1>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
+            <span class="navbar-toggler-icon"></span> 
+          </button> 
+          <div class="collapse navbar-collapse" id="navbarCollapse"> 
+            <form role="search"> 
+              <input aria-label="Search" class="form-control" id="search_simple_query" placeholder="Schnellsuche" type="search" /> 
+            </form> 
+          </div> 
+        </div>
+      </nav>
+    </header>
+    <main class="flex-shrink-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
+        <li class="nav-item"><a class="nav-link" href="http://localhost:8000/index.php?action=authorize&response_type=code&client_id=demo-app&redirect_uri=http://localhost/~harald/app/web-app/php/callback.php&state=xyz123&code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URrbu3JyHTYKf4&code_challenge_method=S256">anmelden</a></li>
+      </ul>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="copyright text-muted" data-bind="copyright"></span>
+      </div>
+    </footer>
+    <script src="./js/vendor/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/vendor/bootstrap/5.3/autocomplete/autocomplete.min.js" type="module"></script>
+  </body>
+</html>
