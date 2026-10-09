@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 /* Konfiguration des Clients ------------------------------------------- */
 const AUTH_TOKEN_ENDPOINT = 'http://localhost:8000/index.php?action=token';
-const CLIENT_ID           = 'demo-app';
+const CLIENT_ID           = 'web-app';
 const CLIENT_REDIRECT_URI = 'http://localhost/~harald/app/web-app/php/callback.php';
 
 
