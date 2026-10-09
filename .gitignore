@@ -4,3 +4,4 @@ _.htaccess
 .directory
 .project
 css/vendor/*
+js/vendor/*

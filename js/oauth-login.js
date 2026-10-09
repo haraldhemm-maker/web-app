@@ -1,9 +1,11 @@
 /**
  * oauth-login.js - Startet den OAuth2 Authorization Code Flow mit PKCE (S256)
  *
- * Klick auf "anmelden" erzeugt frische PKCE-Werte und leitet zum
- * Authorization-Server um.
+ * Erweiterung: Beim Laden wird geprüft, ob der OAuth2-Server erreichbar ist
+ * (php/oauth-status.php). Ist er offline, wird der "anmelden"-Link
+ * deaktiviert und farblich markiert.
  */
+
 
 const OAUTH = {
   // Basis-URL des Authorization Servers (index.php)
@@ -12,8 +14,11 @@ const OAUTH = {
   clientId: 'demo-app',
   // Muss exakt dem in der DB registrierten redirect_uri entsprechen!
   redirectUri: 'http://localhost/~harald/app/web-app/php/callback.php',
+  // Status-Endpoint (serverseitiger Check, umgeht CORS)
+  statusEndpoint: './php/oauth-status.php',
   scope: ''
 };
+
 
 /** Bytes -> Base64URL (ohne Padding, URL-sicher) */
 function base64url(bytes) {
@@ -22,6 +27,41 @@ function base64url(bytes) {
   return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
+
+/* ---------------------------------------------------------
+ * Status-Check: läuft der OAuth2-Server?
+ * --------------------------------------------------------- */
+async function checkOauthServer() {
+  const link = document.getElementById('oauth-login');
+  if (!link) return;
+
+  try {
+    const res   = await fetch(OAUTH.statusEndpoint, { cache: 'no-store' });
+    const data  = await res.json();
+
+    if (data.online) {
+      // Server läuft: Link normal nutzen
+      link.classList.remove('text-warning', 'text-danger');
+      link.title = 'Anmelden';
+      return;
+    }
+  } catch (e) {
+    // Status-Endpoint selbst nicht erreichbar -> wie offline behandeln
+  }
+
+  
+  // Server offline: Link sperren und kennzeichnen
+  link.textContent = 'OAuth2-Server offline';
+  link.classList.add('text-warning');
+  link.title = 'Anmeldung nicht möglich - OAuth2-Server starten!';
+  link.style.pointerEvents = 'none';   // Klicks blockieren
+  link.style.textDecoration = 'none';
+}
+
+
+/* ---------------------------------------------------------
+ * Login starten (Authorization Code Flow + PKCE)
+ * --------------------------------------------------------- */
 async function startLogin(event) {
   event.preventDefault();
 
@@ -53,5 +93,9 @@ async function startLogin(event) {
   window.location.assign(url.toString());
 }
 
+
+/* Initialisierung */
 document.getElementById('oauth-login')
   .addEventListener('click', startLogin);
+
+checkOauthServer();
