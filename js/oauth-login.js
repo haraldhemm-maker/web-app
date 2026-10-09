@@ -11,7 +11,7 @@ const OAUTH = {
   // Basis-URL des Authorization Servers (index.php)
   authorizeEndpoint: 'http://localhost:8000/index.php',
   // Registrierter öffentlicher Client (PKCE Pflicht)
-  clientId: 'demo-app',
+  clientId: 'web-app',
   // Muss exakt dem in der DB registrierten redirect_uri entsprechen!
   redirectUri: 'http://localhost/~harald/app/web-app/php/callback.php',
   // Status-Endpoint (serverseitiger Check, umgeht CORS)
