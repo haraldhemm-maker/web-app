@@ -2,7 +2,13 @@
 
 
 /**
- * callback.php - Client-seitiger Redirect-Endpoint
+ * php/callback.php - Client-seitiger Redirect-Endpoint
+ * 
+ * @author Harald Hemm <hemm@nexgo.de>
+ * @copyright 2026 Harald Hemm Landstuhl (HaHeLa)
+ * @license CC BY-NC-ND HaHeLa
+ * @version 1.0.0
+ * @since 1.0.0
  *
  * GET  ?code=...&state=...  : prüft state (via eingebettetem JS gegen den
  *                             sessionStorage) und reicht code_verifier an
@@ -16,10 +22,19 @@
 declare(strict_types=1);
 
 
-/* Konfiguration des Clients ------------------------------------------- */
-const AUTH_TOKEN_ENDPOINT = 'http://localhost:8000/index.php?action=token';
-const CLIENT_ID           = 'web-app';
-const CLIENT_REDIRECT_URI = 'http://localhost/~harald/app/web-app/php/callback.php';
+namespace HaHeLa;
+
+
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+
+
+include_once __DIR__ . DS . 'inc' . DS . 'autoloader.inc.php';
+
+
+$configuration = new ConfigurationModel();
+$config = $configuration->read();
 
 
 session_start();
@@ -84,14 +99,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         exit('code oder code_verifier fehlt.');
     }
 
-    $ch = curl_init(AUTH_TOKEN_ENDPOINT);
+    $ch = curl_init($config['AUTH']['URL_TOKEN_ENDPOINT']);
     curl_setopt_array($ch, [
         CURLOPT_POST           => true,
         CURLOPT_POSTFIELDS     => http_build_query([
             'grant_type'    => 'authorization_code',
             'code'          => $code,
-            'redirect_uri'  => CLIENT_REDIRECT_URI,
-            'client_id'     => CLIENT_ID,
+            'redirect_uri'  => $config['CLIENT']['REDIRECT_URI'],
+            'client_id'     => $config['CLIENT']['ID'],
             'code_verifier' => $verifier,
         ]),
         CURLOPT_RETURNTRANSFER => true,

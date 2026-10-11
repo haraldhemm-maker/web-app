@@ -2,7 +2,14 @@
 
 
 /**
- * oauth-status.php - Prüft, ob der OAuth2-Authorization-Server erreichbar ist.
+ * php/oauth-status.php - Prueft, ob der OAuth2-Authorization-Server 
+ *  erreichbar ist.
+ * 
+ * @author Harald Hemm <hemm@nexgo.de>
+ * @copyright 2026 Harald Hemm Landstuhl (HaHeLa)
+ * @license CC BY-NC-ND HaHeLa
+ * @version 1.0.0
+ * @since 1.0.0
  *
  * Wird per fetch() aus dem Frontend aufgerufen und liefert JSON:
  *   {"online": true|false, "http_code": 200}
