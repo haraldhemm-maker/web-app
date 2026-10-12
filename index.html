@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html  lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Harald Hemm &lt;hemm@nexgo.de&gt;" />
+    <meta name="copyright" content="Copyright &copy; 2023 Harald Hemm Landstuhl (HaHeLa)" />
+    <meta name="license" content="HaHeLa CC BY-NC-ND" />
+    <meta name="description" content="Web-App - Weiterleitung zum Frontend</q>" />
+    <meta name="keywords" content="App, Application, Frontend, Forwarding, Handel, Weiterleitung" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta http-equiv="refresh" content="0; URL=frontend.html" />
+    <link href="img/favicon.ico" rel="icon" />
+    <link href="img/favicon.ico" rel="shortcut icon" />
+  	<!-- Die automatische Weiterleitung realisiert mit JavaScript. //-->
+		<script>
+			function Weiterleitung () {
+				window.document.location.href = 'frontend.html';
+				return;
+			}
+			window.setTimeout("Weiterleitung();", 500);
+		</script>
+  	<title>Weiterleitung</title>
+  </head>
+	<body>
+		<noscript>
+			<!-- Versagen alle vorhergehenden Mechanismen der automatischen 
+			  Weiterleitung, so wird hier dem Benutzer die Moeglichkeit gegeben, 
+			  mit einem einfachen Klick auf den Verweis 'Weiterleitung' die 
+              Startseite aufzurufen.
+			//-->
+		</noscript>
+    <a href="frontend.html">Weiterleitung</a>
+	</body>
+</html>

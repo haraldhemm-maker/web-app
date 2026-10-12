@@ -2,7 +2,7 @@
 
 
 /**
- * php/oauth-status.php - Prueft, ob der OAuth2-Authorization-Server 
+ * .../php/oauth-status.php - Prueft, ob der OAuth2-Authorization-Server 
  *  erreichbar ist.
  * 
  * @author Harald Hemm <hemm@nexgo.de>
@@ -19,16 +19,29 @@
  */
 
 
+
 declare(strict_types=1);
+
+
+namespace HaHeLa;
+
+
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+
+
+include_once __DIR__ . DS . 'inc' . DS . 'autoloader.inc.php';
+
+
+$configuration = new ConfigurationModel();
+$config = $configuration->read();
 
 
 header('Content-Type: application/json');
 header('Cache-Control: no-store');
 
-/* URL des Authorization Servers - bei Port-Änderung anpassen! */
-const OAUTH_SERVER = 'http://localhost:8000/index.php';
-
-$ch = curl_init(OAUTH_SERVER);
+$ch = curl_init($config['AUTH']['URL_SERVER']);
 
 curl_setopt_array($ch, [
     // HEAD-Request reicht: wir wollen nur wissen, ob jemand antwortet
