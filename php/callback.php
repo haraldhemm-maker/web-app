@@ -40,7 +40,9 @@ $config = $configuration->read();
 session_start();
 
 
-/* Fall A: Redirect vom Authorization Server --------------------------- */
+//
+// Fall A: Redirect vom Authorization Server
+//
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
     $code  = $_GET['code']  ?? '';
     $state = $_GET['state'] ?? '';
@@ -89,9 +91,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
     exit;
 }
 
-/* Fall B: Token-Austausch (vom eingebetteten JS aufgerufen) ------------ */
+//
+// Fall B: Token-Austausch (vom eingebetteten JS aufgerufen)
+//
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
-    $code    = $_POST['code']         ?? '';
+    $code     = $_POST['code']          ?? '';
     $verifier = $_POST['code_verifier'] ?? '';
 
     if ($code === '' || $verifier === '') {

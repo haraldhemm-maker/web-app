@@ -35,9 +35,9 @@ require_once '..'.DS.'modules'.DS.'model'.DS.'configuration.php';
 
 
 /**
- * FileModel Test
+ * Configuration Model Test
  */
-class ConfigurationTest extends TestCase
+class ConfigurationModelTest extends TestCase
 {
     /**
      * Konstanten

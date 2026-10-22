@@ -4,12 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="manifest.json" />
+    <link href="./img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" type="image/png" />
+    <link href="./img/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+    <link href="./img/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png" />
+    <link href="./img/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" type="image/png" />
+    <link href="./img/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" type="image/png" />
+    <link href="./img/favicon.ico" rel="icon" />
+    <link href="./img/favicon.ico" rel="shortcut icon" />     
     <link href="./css/vendor/bootstrap/5.3.8/font/bootstrap-icons.css" media="screen" rel="stylesheet" />
     <link href="./css/vendor/bootstrap/5.3.8/css/bootstrap.min.css" media="screen" rel="stylesheet" />
+    <link href="./css/main.css" media="screen" rel="stylesheet" />
     <title>Web-App</title>
   </head>
   <body class="d-flex flex-column h-100">
-    <header>
+    <header> 
       <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="dynamisches Menü und Untermenü" data-bs-theme="dark">
         <div class=" ml-2 spinner-grow spinner-grow-sm text-primary" style="visibility:hidden;"></div>
         <div class="container-fluid">
@@ -17,7 +25,9 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> 
             <span class="navbar-toggler-icon"></span> 
           </button> 
-          <div class="collapse navbar-collapse" id="navbarCollapse"> 
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
+            </ul>
             <form role="search"> 
               <input aria-label="Search" class="form-control" id="search_simple_query" placeholder="Schnellsuche" type="search" /> 
             </form> 
@@ -26,10 +36,6 @@
       </nav>
     </header>
     <main class="flex-shrink-0">
-      <ul> 
-        <li><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="#" id="oauth-login" title="anmelden">anmelden</a></li>
-        <li><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="http://localhost:8000?action=register" id="oauth-register" title="registrieren">registrieren</a></li>
-      </ul>
     </main>
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
@@ -37,6 +43,6 @@
       </div>
     </footer>
     <script src="./js/vendor/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/oauth-login.js" type="module"></script>
+    <script src="./js/app.js" type="module"></script>
   </body>
 </html>

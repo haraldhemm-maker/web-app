@@ -1,7 +1,7 @@
 {
   "name": "Meine Web-App",
   "short_name": "Web-App",
-  "description": "Rudimentäres Gerüst einer Web-App mit Header, Sidebar und Todo-Liste",
+  "description": "Rudimentäres Gerüst einer Web-App",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -12,13 +12,13 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "./icons/icon-192.png",
+      "src": "./img/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./icons/icon-512.png",
+      "src": "./img/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
