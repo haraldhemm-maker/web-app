@@ -10,7 +10,7 @@
  * @version 1.0.0
  * @since 1.0.0
  *
- * GET  ?code=...&state=...  : prüft state (via eingebettetem JS gegen den
+ * GET  ?code=...&state=...  : prueft state (via eingebettetem JS gegen den
  *                             sessionStorage) und reicht code_verifier an
  *                             dieses Script (POST) weiter.
  * POST code + code_verifier : tauscht den Code per curl am Token-Endpoint
@@ -37,6 +37,7 @@ $configuration = new ConfigurationModel();
 $config = $configuration->read();
 
 
+ini_set('session.save_path', '/home/harald/public_html/app/web-app/tmp/sessions');
 session_start();
 
 
@@ -137,8 +138,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $_SESSION['refresh_token'] = $tokens['refresh_token'] ?? null;
     $_SESSION['token_expires'] = time() + (int)($tokens['expires_in'] ?? 3600);
 
-    // Weiterleitung auf die geschützte Startseite der Web-App
-    header('Location: ../frontend.html?login=success');
+    // Ausgangsseite ist die login-Seite (frontend.html#login). Damit ein 
+    //  hashchange-Ereignis ausgeloest, und damit das Menue neu erstellt wird, 
+    //  wird auf die info-Seite (frontend.html#info) weitergeleitet. Eine 
+    //  Weiterleiung auf eine geschuetzte Seite waere auch moeglich.
+    header('Location: ../frontend.html#info');
     exit;
 }
 

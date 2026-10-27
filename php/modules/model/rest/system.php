@@ -110,7 +110,7 @@ class RestSystemModel implements CommandInterface
             $action = $request->getParameter('act', 'string');
             if ('get_menu_map' == $action || 'get_routes' == $action) {
                 //
-                // ******************************************************************** Hole die Menuedaten bzw Routen.
+                // ******************************************************************* Hole die Menuedaten bzw Routen.
                 //
                 $menuMap = array();
                 $path = __DIR__.DS.'..'.DS.'..'.DS.'..'. DS.'..'.DS.'htm'.DS.'pages'.DS;
@@ -144,7 +144,9 @@ class RestSystemModel implements CommandInterface
   /* ********************************************** private (Hilfs-)Methoden */
     
     /**
-     * Aufbau einer Menue-Map
+     * Aufbau einer Menue-Map.
+     *  Wenn in der Sesiion ein Access Token vorhanden ist, dann wird die 
+     *  Login-Seite aus der Menue-Map entfernt.
      * 
      * @param string $path Pfad zu den HTML-Seiten-Fragmenten (Pfad mit 
      *  terminierendem Backslash bzw. Slash).
@@ -202,6 +204,8 @@ class RestSystemModel implements CommandInterface
                     }
                 }
             }
+            // Login-Seite aus der Menue-Map entfernen.
+            unset($map['login']);
         }
         uasort($map, 'self::cmpDataMenuSort');        
     }
