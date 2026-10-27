@@ -15,7 +15,9 @@
 
 
 namespace HaHeLa;
-//use HaHeLa\Modules_Model_Http_Request as HttpRequest;
+
+
+use HaHeLa\HttpRequestModel as HttpRequest;
 
 
 if (!defined('DS')) {
@@ -28,7 +30,7 @@ if (!defined('DS')) {
  *   fuer ein Dateisystem.
  */
 class CommandResolverFilesystemModel 
-    implements CommandResolverFilesystemInterface
+    implements CommandResolverInterface
 {
     /**
      * HTTP-Request-Parametername des Kommandos.
@@ -36,33 +38,33 @@ class CommandResolverFilesystemModel
      * @default 'cmd'
      */
     private const string COMMAND = 'cmd';
-
+    
     
     /**
      * Datenbank-Handle
      * @var \PDO $dbh
      */
     private \PDO $dbh;
-
+    
     /**
      * Konfigurationsdaten des Systems.
      * @var array
      */
     private array $config;
-
+    
     /**
      * Pfad zu den Kommando-Dateien (ohne abschliessenden Slash oder Backslash).
      * @var string
      */
     private string $path;
-
+    
     /**
      * Voreingestelltes Kommando.
      * @var string
      */
     private string $defaultCommand;
-
-
+    
+    
     /**
      * Constructor
      *
@@ -114,7 +116,7 @@ class CommandResolverFilesystemModel
             return FALSE;
         }
         include_once $filename;
-        $class = "HaHeLa\Modules_Model_Rest_{$cmdName}";
+        $class = "HaHeLa\Rest{$cmdName}Model";
         if (!class_exists($class)) {
             return FALSE;
         }

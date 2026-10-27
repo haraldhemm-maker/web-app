@@ -94,7 +94,7 @@ async function initMVC() {
     var utils = new Utilities(config, client);
     
     var view = new View(config, utils, client);
-    
+        
     window._ROUTER = new Router(config, utils, client, view);
     
 }

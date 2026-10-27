@@ -31,29 +31,51 @@ export class LoginView extends ProxyView  {
     
     
     /**
-     * Bearbeitung des Anmelde-Links.
+     * Zeige ein HTML-Element.
      * 
-     * @param {Boolean} available Wenn der Anmelde-Link verfuegbar sein soll, 
-     *  dann muss der Wert dieses Parameters true sein. Ist der Wert des 
-     *  Parameters false, dann wird statt eines Links ein Warnhinweis 
-     *  angezeigt.
+     * @param {HTMLElement} elem Ein HTML-Element, das angezeigt werden soll.
      * @return {LoginView}
      */
-    handlingLoginLink(available) {
-        const link = this.proxy.elementOauth;
+    showElement(elem) {
+        elem.removeAttribute('style');
+        return this;
+    }
+    
+    
+    /**
+     * Verstecke ein HTML-Element.
+     * 
+     * @param {HTMLElement} elem Ein HTML-Element, das versteckt werden soll.
+     * @return {LoginView}
+     */
+    hideElement(elem) {
+        elem.setAttribute('style', 'display:none');
+        return this;
+    }
+    
+    /**
+     * Bearbeitung des Anmelde- und Registrieren-Knopfes.
+     * 
+     * @param {Boolean} available Wenn der Anmelde- und Registrieren-Knopf 
+     *  verfuegbar sein soll, dann muss der Wert dieses Parameters true sein. 
+     *  Ist der Wert des Parameters false, dann werden die Knoepfe deaktiviert 
+     *  und ein Warnhinweis angezeigt.
+     * @return {LoginView}
+     */
+    handlingLoginAndRegisterBtn(available) {
         if (available) {
-            // Server läuft: Link normal nutzen
-            link.classList.remove('text-warning', 'text-danger');
-            link.title = 'Anmelden';
- 
+            // Schaltknoepfe aktivieren.
+            this.proxy.elementOauth.disabled = false;
+            this.proxy.elementOauthRegister.disabled = false;
+            // Warnmeldung verstecken.
+            this.hideElement(this.proxy.elementAlertBox);
         }
         else {
-            // Server offline: Link sperren und kennzeichnen
-            link.textContent = 'OAuth2-Server offline';
-            link.classList.add('text-warning');
-            link.title = 'Anmeldung nicht möglich - OAuth2-Server starten!';
-            link.style.pointerEvents = 'none';   // Klicks blockieren
-            link.style.textDecoration = 'none';  
+            // Schaltknoepfe deaktivieren.
+            this.proxy.elementOauth.disabled = true;
+            this.proxy.elementOauthRegister.disabled = true;
+            // Warnmeldung anzeigen
+            this.showElement(this.proxy.elementAlertBox);
         }
         return this;
     }

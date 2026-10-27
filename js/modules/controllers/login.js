@@ -24,15 +24,23 @@ export class LoginController {
 	    this.view = view;
 	    this.config = config;
         
-        // Ereignisverwaltung fuer den Anmelde-Link (Initialisierung)
-        const link = this.view.proxy.elementOauth;
-        link.addEventListener('click', (evt) => {
+        // Ereignisverwaltung fuer den Anmelde-Knopf.
+        this.view.proxy.elementOauth.addEventListener('click', (evt) => {
             evt.preventDefault();
             this.model.startLogin();
         });
         
-        // Initialisierung des Anmelde-Links.
-        this.view.handlingLoginLink(this.model.checkOauthServer());
+        // Ereignisverwaltung fuer den Registrieren-Knopf.
+        this.view.proxy.elementOauthRegister.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            this.model.startRegister();
+        });
+        
+        // Pruefen, ob der lokale OAuth2-Server erreichbar ist.
+        this.model.checkOauthServer()
+        .then((response) => {
+            this.view.handlingLoginAndRegisterBtn(response);            
+        });
         
 	    console.log('LOGIN CONTROLLER');
     }

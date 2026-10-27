@@ -32,7 +32,7 @@ export class InfoModel {
      * @returns {InfoModel} Gibt das Objekt selbst zurueck ("sprechende Schnittstelle").
      */ 
     setCurrentVersion (element) {
-	    element.textContent += this.config.info.version;
+	    element.textContent += this.config.INFO.VERSION;
 	    return this;
     }
 } // InfoModel

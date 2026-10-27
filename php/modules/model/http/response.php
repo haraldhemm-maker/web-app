@@ -1,22 +1,26 @@
 <?php
+
+
 /**
  * php/modules/model/http/response.php
  *
  * HTTP Response Model - Klasse fuer eine HTTP-Response.
  *
  * @author Harald Hemm <hemm@nexgo.de>
- * @copyright 2020-2025 Harald Hemm Landstuhl (HaHeLa)
+ * @copyright 2026 Harald Hemm Landstuhl (HaHeLa)
  * @license CC BY-NC-ND HaHeLa
  * @version 1.0.0
  * @since 1.0.0
  */
+
+
 namespace HaHeLa;
 
 
 /**
  * HTTP Response Model - Klasse fuer eine HTTP-Response.
  */
-class Modules_Model_Http_Response implements Modules_Interface_Http_Response
+class HttpResponseModel implements HttpResponseInterface
 {
     /**
      * HTTP Status

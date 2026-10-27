@@ -56,7 +56,7 @@ spl_autoload_register(function (string $class): void {
     $path = $basePath . '/' . $subdir . '/' . implode('/', $parts);
 
     if (is_file($path)) {
-        require $path;
+        require_once $path;
     }
 });
 

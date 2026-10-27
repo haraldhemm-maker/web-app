@@ -45,67 +45,64 @@ export class Router {
         this.client = client;
         this.view = view;
         
-        // Die Anfangsrouten festlegen.
-        this.routes = this.getInitialRoutes();
-        
-        // Ereignisverwaltung des Routers.
-        if (window) {
-          window.addEventListener('load', (this.initRouting).bind(this));
-          window.addEventListener('hashchange', (this.handleRouting).bind(this));
+        this.handleRouting(new HashChangeEvent('hashchange', {}));        
+        if ('undefined' !== typeof window) {
+            window.addEventListener('hashchange', this.handleRouting.bind(this));
         }
     }
     
     
     /**
-     * Zerlege eine Query-Zeichenkette (location.search) in ihre Bestandteile.
-     * 
-     * @global {String} document.location.search
-     * @returns {Map} die Bestandteile der Query-Zeichenkette als 
-     *  Schluessel/Wert-Paare in einer Map. 
+     * Ermittelt die moeglichen Routen (Navigationsmoeglichkeiten) zu 
+     *   vorhandenen Seiten (Container) und gibt diese als eine Sammlung 
+     *   von Schluessel/Wert-Paaren (Map) zurueck. Die Schluessel sind die 
+     *   Identifikationszeichenketten der einzelnen Seiten (Container) und 
+     *   die entsprechenden Werte sind Objekte unter anderem mit den Namen 
+     *   der Seiten (Container) wie diese im Menue erscheinen sollen.
+     * @returns {Map} Sammlung von Schluessel/Wertpaaren moeglicher Routen.  
+     * @note Fuer die Nutzung dieser Methode NUSS der Benutzer angemeldet sein.
      */
-    parseQuery() {
-        const params = new URLSearchParams(document.location.search);
-        const map = new Map();
-        for (const [key, value] of params) {
-          map.set(key, value);
-        }
-        return map;
-    }
-    
-    
-    /**
-     * Holt die moeglichen Anfangsrouten (die anfaenglichen 
-     *   Navigationsmoeglichkeiten). Zur Zeit gibt es nur eine Anfangsroute, 
-     *   naemlich die zur Login-Seite (siehe Konfiguration).
-     * @returns {Map} Sammlung von Schluessel/Wertpaaren. Die Schluessel sind 
-     *   die Identifikationszeichenketten der einzelnen Seiten (Container) und 
-     *   die entsprechenden Werte sind Objekte unter anderem mit der Eigenschaft
-     *   der Seitennamen (Containernamen) wie diese im Menue erscheinen sollen. 
-     *   Z.B.: {'login', Object:{menu_name: 'Anmelden', menu_sort: 1, ...}}
-     */
-    getInitialRoutes() {
-        const routes = new Map();        
-        const objPages = this.config.CLIENT.PAGES;
-        for (const prop in objPages) {
-            if (this.utils.isString(objPages[prop])
-            && this.utils.isValidJson(objPages[prop])) {
-                routes.set(prop, JSON.parse(objPages[prop]));
+    getRoutes() {
+        this.client.httpParams.clear()
+        .set('cmd', 'System')
+        .set('act', 'get_menu_map');
+        return this.client.exec('GET')
+        .then(response => { // Kein "interner" Fehler
+            if ('undefined' == typeof response.errCode || 0 == response.errCode) {
+                let responseMap = response.map;
+                responseMap = Object.entries(responseMap);
+                return new Map(responseMap);
             }
-        }
-        return routes;
+            else { // Fehler bei der REST API "System" Fehler
+                console.log(response);
+                return new Map();
+            }
+        }).catch(error => { // "Interner" Fehler beim XMLHttpRequest.
+            console.error(error.message);
+            return new Map();
+        });
     }
     
     
     /**
-     * Initialisiert das Routing. Hier wird beim Eintreffen des 
-     *   'load'-Ereignisses das Routing fuer das Ereignis 'hashchange' 
-     *   ausgefuehrt.
+     * Holt den Uniform Resource Identifier (URI) einer HTML-Seite.
      * 
-     * @param {Event} evt 'load'-Ereignis
-     * @return {void}
+     * @param {String} pageId Identifikationszeichenkette einer Seite.
+     * @return {String} URI Uniform Resource Identifier einer Seite.
      */
-    initRouting(evt) {
-        this.handleRouting(evt);
+    getPageUri(pageId) {
+        let uri = this.config.CLIENT.BASE_PATH + 'htm/pages/';
+        const parts = pageId.split('-');
+        let firstPass = true;
+        for (let i = 0; i < parts.length; i++) {
+            if (firstPass) {
+                uri += parts[i];
+                firstPass = false;
+            }
+            else uri += '/' + parts[i];
+        }
+        uri += '.inc.htm';
+        return uri;
     }
     
     
@@ -116,26 +113,18 @@ export class Router {
      * @returns {Router} Gibt das Objekt selbst zurueck 
      *   ("sprechende Schnittstelle“).
      */
-    async handleRouting(evt) { 
+    async handleRouting(evt) {
         evt.stopPropagation();
         this.view.closeMenu();
-        
-        //if (this.isUserLoggedIn()) {
-        if (window._LOGIN) {
-            // The location.hash property sets or returns the anchor part 
-            //  of a URL, including the hash sign (#).
-            const currentPageId = location.hash.slice(1); // without hash sign.
-            newPageId = (0 != currentPageId.length)? currentPageId: this.config.default_page_id;
-            await this.getRoutes().then(async (response) => {
-                this.routes = await response;
-                this.view.createMenu(this.routes);
-            });
-        }
-        else {
-            this.routes = this.getInitialRoutes();
+        // The location.hash property sets or returns the anchor part 
+        //  of a URL, including the hash sign (#).
+        const currentPageId = location.hash.slice(1); // without hash sign.
+        const newPageId = (0 != currentPageId.length)? 
+            currentPageId: this.config.CLIENT.DEFAULT_PAGE_ID;
+        await this.getRoutes().then(async (response) => {
+            this.routes = response;
             this.view.createMenu(this.routes);
-        }
-        /*
+        });
         // When location.hash is used to set the anchor part, 
         //  do not include the hash sign (#).
         location.hash = newPageId;
@@ -153,14 +142,13 @@ export class Router {
                 const viewName = this.utils.camelizePageId(newPageId) + 'View';
                 const controllerName = this.utils.camelizePageId(newPageId) + 'Controller';
                 const specificModel = new (eval(modelName))(this.config, this.utils, this.client);
-                const specificView = new (eval(viewName)))(this.config, this.utils, this.client);
+                const specificView = new (eval(viewName))(this.config, this.utils, this.client);
                 const specificController = new (eval(controllerName))(specificModel, specificView, this.config);
             })
             .catch(error => {
                 console.log(error);
             });
         }
-        */
         return this;
     }
 } // Router

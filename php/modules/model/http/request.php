@@ -27,16 +27,16 @@ class HttpRequestModel implements HttpRequestInterface
     /**
      * HTTP Request Methoden (als Konstanten)
      */
-    private const GET     = 'GET';
-    private const POST    = 'POST';
-    private const PUT     = 'PUT';
-    private const HEAD    = 'HEAD';
-    private const DELETE  = 'DELETE';
-    private const TRACE   = 'TRACE';
-    private const OPTIONS = 'OPTIONS';
-    private const CONNECT = 'CONNECT';
-    private const MERGE   = 'MERGE';
-    private const PATCH   = 'PATCH';
+    public const GET     = 'GET';
+    public const POST    = 'POST';
+    public const PUT     = 'PUT';
+    public const HEAD    = 'HEAD';
+    public const DELETE  = 'DELETE';
+    public const TRACE   = 'TRACE';
+    public const OPTIONS = 'OPTIONS';
+    public const CONNECT = 'CONNECT';
+    public const MERGE   = 'MERGE';
+    public const PATCH   = 'PATCH';
 
 
     /**

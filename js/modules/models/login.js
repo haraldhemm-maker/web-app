@@ -53,7 +53,7 @@ export class LoginModel {
         // 2. code_challenge = BASE64URL(SHA256(code_verifier)).
         const digest  = await crypto.subtle.digest('SHA-256',
                             new TextEncoder().encode(verifier));
-        const challenge = base64url(new Uint8Array(digest));
+        const challenge = this.base64url(new Uint8Array(digest));
 
         // 3. Fuer den Callback aufbewahren (gleiche Origin wie die 
         //  Callback-Seite).
@@ -61,7 +61,7 @@ export class LoginModel {
         sessionStorage.setItem('oauth_state', state);
         
         // 4. Umleitung zum Authorization Server
-        const url = new URL(this.config.AUTH.ENDPOINT);
+        const url = new URL(this.config.AUTH.URL_ENDPOINT);
         url.searchParams.set('action', 'authorize');
         url.searchParams.set('response_type', 'code');
         url.searchParams.set('client_id', this.config.CLIENT.ID);
@@ -78,6 +78,16 @@ export class LoginModel {
     
     
     /**
+     * Registrierung starten
+     * 
+     * @returns {void}
+     */
+    startRegister() {
+        window.location.assign('http://localhost:8000?action=register');
+    }
+    
+    
+    /**
      * Status-Check: laeuft der OAuth2-Server?
      * 
      * @returns {Boolean} Wenn der OAuth2-Server laeuft, dann liefert die 
@@ -85,11 +95,13 @@ export class LoginModel {
      */
     async checkOauthServer() {
         try {
-            const res = await fetch(this.config.AUTH.URL_STATUS_ENDPOINT, 
-                {cache: 'no-store'});
-            const data = await res.json();
+            const response = await fetch(
+                this.config.AUTH.URL_STATUS_ENDPOINT, 
+                {cache: 'no-store'}
+            );
+            const data = await response.json();
             if (data.online) {
-                // Server laeuft -> Login.View:  Link normal nutzen.
+                // Server laeuft; Server online
                 return true;
             }
         } catch (e) {
@@ -97,7 +109,7 @@ export class LoginModel {
             console.error(e);
             return false;
         }
-        // Server offline -> LoginView: Link sperren und kennzeichnen
+        // Server offline
         return false;
     }
 } // LoginModel
