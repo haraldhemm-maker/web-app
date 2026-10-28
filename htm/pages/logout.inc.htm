@@ -12,10 +12,58 @@
             <button class="w-100 btn btn-lg btn-primary" id="logout_cancel" type="button">abbrechen</button>
           </form>
         </div>
-        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore 
-          et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-          Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit 
-          amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna 
-          aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd 
-          gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        <table class="caption-top  table-bordered table-primary">
+          <caption class="fw-bold">Reihenfolge der Aktionen und ihre Begründung</caption>
+          <thead>
+            <tr>
+              <th>Schritt</th>
+              <th scope="col">Aktion</th>
+              <th scope="col">Begründung</th>
+              <th scope="col">Skript (Code)</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>1</td>
+              <td>
+                Tokens-Revocation (cURL)<br />
+                Zugriffsmarken widerrufen
+              </td>
+              <td>
+                Verhindert, dass ein weiterlaufender Prozess/Script mit dem 
+                alten Access-Token weiter die REST-API nutzen kann; 
+                Refresh-Rotation erlischt.
+              </td>
+              <td>
+                Backend PHP, RestLogoutModel::logout()
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                Lokale Session zerstören
+              </td>
+              <td>
+                Verhindert, dass die Tokens im Klartext in der Session 
+                weiterliegen; erneutes <q>eingeloggt sein</q>.
+              </td>
+              <td>
+                Backend PHP, RestLogoutModel::logout()
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>
+                Auf die info-Seite weiterleiten und öffentliches Menü 
+                darstellen.
+              </td>
+              <td>
+                Verhindert, den Zugriff auf geschützte Seiten.
+              </td>
+              <td>
+                Frontend <abbr title="JavaScript">JS</abbr>, LogoutController::logout()
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
