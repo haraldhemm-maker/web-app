@@ -7,4 +7,4 @@ css/vendor/*
 js/vendor/*
 php/tests/.phpunit.result.cache
 php/tests/log/*
-php/tmp/*
+tmp/*
