@@ -78,7 +78,8 @@ export class View {
      * Holt ein HTML-Schnipsel.
      *
      * @param {DOMString} uri Einheitlicher Bezeichner der HTML-Ressource, 
-     *   z.B. this.config.base.path + 'htm/page/login.inc.htm'; 
+     *  z.B. this.config.CLIENT.BASE_PATH + 'htm/page/login.inc.htm'
+     *  oder this.config.CLIENT.BASE_PATH # 'htm/form/profile.inc.htm'
      * @returns {Promise}
      */
     getHTML (uri) {

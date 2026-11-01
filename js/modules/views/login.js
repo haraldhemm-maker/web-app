@@ -53,6 +53,7 @@ export class LoginView extends ProxyView  {
         return this;
     }
     
+        
     /**
      * Bearbeitung des Anmelde- und Registrieren-Knopfes.
      * 

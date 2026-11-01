@@ -18,16 +18,19 @@ import {InfoModel} from './models/info.js';
 import {LoginModel} from './models/login.js';
 import {LogoutModel} from './models/logout.js';
 import {Page01Model} from './models/page01.js';
+import {ProfileModel} from './models/profile.js';
 // views mVc
 import {InfoView} from './views/info.js';
 import {LoginView} from './views/login.js';
 import {LogoutView} from './views/logout.js';
 import {Page01View} from './views/page01.js';
+import {ProfileView} from './views/profile.js';
 // controllers mvC
 import {InfoController} from './controllers/info.js';
 import {LoginController} from './controllers/login.js';
 import {LogoutController} from './controllers/logout.js';
 import {Page01Controller} from './controllers/page01.js';
+import {ProfileController} from './controllers/profile.js';
 
 
 export class Router {
