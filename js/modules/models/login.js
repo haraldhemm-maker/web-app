@@ -82,8 +82,37 @@ export class LoginModel {
      * 
      * @returns {void}
      */
-    startRegister() {
-        window.location.assign('http://localhost:8000?action=register');
+    async startRegister() {
+        // 1. PKCE: code_verifier (43-128 Zeichen, kryptografisch zufaellig).
+        const verifier = this.base64url(
+            crypto.getRandomValues(new Uint8Array(48))
+        );
+        const state = this.base64url(
+            crypto.getRandomValues(new Uint8Array(24))
+        );
+
+        // 2. code_challenge = BASE64URL(SHA256(code_verifier)).
+        const digest  = await crypto.subtle.digest('SHA-256',
+                            new TextEncoder().encode(verifier));
+        const challenge = this.base64url(new Uint8Array(digest));
+
+        // 3. Fuer den Callback aufbewahren (gleiche Origin wie die 
+        //  Callback-Seite).
+        sessionStorage.setItem('oauth_code_verifier', verifier);
+        sessionStorage.setItem('oauth_state', state);
+        
+        const url = new URL(this.config.AUTH.URL_ENDPOINT);
+        url.searchParams.set('action', 'authorize');
+        url.searchParams.set('response_type', 'code');
+        url.searchParams.set('client_id', this.config.CLIENT.ID);
+        url.searchParams.set('redirect_uri', this.config.CLIENT.REDIRECT_URI);
+        url.searchParams.set('state', state);
+        url.searchParams.set('code_challenge', challenge);
+        url.searchParams.set('code_challenge_method', 'S256');
+        if (this.config.AUTH.SCOPE) {
+            url.searchParams.set('scope', this.config.AUTH.SCOPE);
+        }
+        window.location.assign(url.toString());
     }
     
     
