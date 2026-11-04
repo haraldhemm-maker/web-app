@@ -13,8 +13,9 @@
  * @since 1.0.0
  *
  * Pfadschema:
- *   FooBarModel      -> <base>/php/modules/model/foo/bar.php
- *   FooBarInterface  -> <base>/php/modules/interface/foo/bar.php
+ *  FooBarModel         -> <base>/php/modules/model/foo/bar.php
+ *  FooBarInterface     -> <base>/php/modules/interface/foo/bar.php
+ *  FooBarTrait         -> <base>/php/modules/trait/foo/bar.php
  */
 
 
@@ -36,6 +37,9 @@ spl_autoload_register(function (string $class): void {
     } elseif (str_ends_with($class, 'Interface')) {
         $name = substr($class, 0, -strlen('Interface'));
         $subdir = 'interface';
+    } elseif (str_ends_with($class, 'Trait')) {
+        $name = substr($class, 0, -strlen('Trait'));
+        $subdir = 'trait';
     } else {
         return; // gehört nicht zu diesem Schema
     }
