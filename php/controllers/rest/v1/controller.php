@@ -86,8 +86,9 @@ if (empty($_SESSION['access_token'])) {
 
 // Kommando ausfuehren.
 $response = new HttpResponse();
-// Relativer Pfad zu den REST-Modellen und das voreingestellte Kommando.
-$path = '..'.DS.'..'.DS.'..'.DS.'modules'.DS.'model'.DS.'rest'; // ohne abschliessenden Dateiseparator.
+// Relativer Pfad zu den REST-Modellen.
+$path = '..'.DS.'..'.DS.'..'.DS.'rest'; // ohne abschliessenden Dateiseparator.
+// Voreingestelltes Kommando.
 $defaultCommand = 'Login'; // Beachte Gross/Kleinschreibung
 // Kommando ausfuehren.
 $resolver = new CommandResolverFilesystem($dbh, $configuration, $path, $defaultCommand);
