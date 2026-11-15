@@ -90,7 +90,7 @@ class CountryModel_Test extends TestCase
         $this->config = parse_ini_file($fileName, true);
 
         // Verbindung mit Datenbankserver herstellen und Datenbank oeffnen.
-        $this->dbhResult = new stdClass();
+        $this->dbhResult = new \stdClass();
         $dataSourceName = "mysql:host={$this->config['DATABASE']['SERVERNAME']};dbname={$this->config['DATABASE']['DATABASENAME']}";
         try {
           $this->dbh = new \PDO($dataSourceName, $this->config['DATABASE']['USERNAME'], $this->config['DATABASE']['PASSWORD']);
